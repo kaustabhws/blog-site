@@ -26,15 +26,17 @@ router.post('/addblog', fetchuser, [
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
             }
-            const blog = new Blog({
-                title, content, tag, imgUrl, user: req.user.id, author: req.user.name
-            })
-            const savedBlog = await blog.save()
-
+            
             const userId = req.user.id;
             const user = await User.findById(userId).select("-password")
             user.posts += 1;
             await user.save();
+
+            const blog = new Blog({
+                title, content, tag, imgUrl, user: req.user.id, author: user.name
+            })
+            const savedBlog = await blog.save()
+
             res.json(savedBlog);
 
         } catch (error) {
