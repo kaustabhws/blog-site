@@ -35,8 +35,7 @@ router.post('/addblog', fetchuser, [
             const user = await User.findById(userId).select("-password")
             user.posts += 1;
             await user.save();
-
-            res.json({ user, savedBlog });
+            res.json(savedBlog);
 
         } catch (error) {
             console.error(error.message);
@@ -108,5 +107,18 @@ router.get('/allblogs', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+
+router.get('/bloginfo/:id', async (req, res) => {
+    try {
+        let blog = await Blog.findById(req.params.id);
+        if (!blog) { return res.status(404).send("Not Found") }
+
+        res.json(blog);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
 
 module.exports = router
