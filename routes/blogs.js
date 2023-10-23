@@ -27,7 +27,7 @@ router.post('/addblog', fetchuser, [
                 return res.status(400).json({ errors: errors.array() });
             }
             const blog = new Blog({
-                title, content, tag, imgUrl, user: req.user.id, author: req.user.id
+                title, content, tag, imgUrl, user: req.user.id, author: req.user.name
             })
             const savedBlog = await blog.save()
 

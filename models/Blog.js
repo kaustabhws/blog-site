@@ -18,7 +18,7 @@ const BlogsSchema = new Schema({
         type: String,
     },
     author:{
-        type: mongoose.Schema.Types.String,
+        type: String,
         ref: 'name'
     },
     tag:{
